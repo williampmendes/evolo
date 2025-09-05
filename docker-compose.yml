@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: evolo_app
+    volumes:
+      - .:/var/www
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: evolo
+      DB_USERNAME: evolo_user
+      DB_PASSWORD: password
+    networks:
+      - evolo_network
+    depends_on:
+      - db
+
+  apache:
+    image: httpd:2.4
+    container_name: evolo_apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/usr/local/apache2/htdocs/
+      - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    networks:
+      - evolo_network
+    depends_on:
+      - app
+
+  db:
+    image: postgres:16
+    container_name: evolo_db
+    restart: always
+    environment:
+      POSTGRES_DB: evolo
+      POSTGRES_USER: evolo_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - evolo_network
+
+volumes:
+  postgres_data:
+
+networks:
+  evolo_network:
+    driver: bridge

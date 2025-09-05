@@ -1,0 +1,18 @@
+ Volume in drive C has no label.
+ Volume Serial Number is 38C4-BE91
+
+ Directory of C:\Users\will_matador\Documents\redesocial\app\Http\Controllers
+
+15/07/2025  10:53               353 AdminController.php
+15/07/2025  10:53               746 ChatController.php
+15/07/2025  10:54               286 FeedController.php
+15/07/2025  10:52               280 FriendsController.php
+15/07/2025  10:53               931 GroupsController.php
+15/07/2025  10:53               304 NotificationsController.php
+15/07/2025  10:53               830 PostController.php
+15/07/2025  10:53               207 PrivacyController.php
+15/07/2025  10:53               492 ProfileController.php
+15/07/2025  10:53               392 SettingsController.php
+15/07/2025  10:53               203 TermsController.php
+              11 File(s)          5ÿ024 bytes
+               0 Dir(s)  489ÿ715ÿ363ÿ840 bytes free
