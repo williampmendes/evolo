@@ -1,0 +1,45 @@
+/* _profile.css */
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem auto;
+    border: 3px solid #00BFFF; /* Deep Sky Blue */
+}
+
+.profile-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00BFFF; /* Deep Sky Blue */
+    margin-bottom: 0.5rem;
+}
+
+.profile-bio {
+    color: #a0aec0; /* gray-400 */
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-section {
+    margin-bottom: 2rem;
+}
+
+.profile-section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4fd1c5; /* teal-400 */
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #2d3748;
+    padding-bottom: 0.5rem;
+}
+
+

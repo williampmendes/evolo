@@ -1,0 +1,28 @@
+/* _header.css */
+
+.main-header {
+    background-color: #1a202c; /* gray-900 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header .logo {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #00BFFF; /* Deep Sky Blue */
+}
+
+.main-header .nav-link {
+    margin-left: 1.5rem;
+    color: #cbd5e0; /* gray-300 */
+    transition: color 0.3s ease;
+}
+
+.main-header .nav-link:hover {
+    color: #00BFFF; /* Deep Sky Blue */
+}
+
+

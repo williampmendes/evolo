@@ -1,0 +1,40 @@
+/* _forms.css */
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #cbd5e0; /* gray-300 */
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #4a5568; /* gray-600 */
+    background-color: #2d3748; /* gray-800 */
+    color: #f7fafc; /* white */
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: #63b3ed; /* blue-400 */
+    outline: none;
+}
+
+.form-checkbox,
+.form-radio {
+    margin-right: 0.5rem;
+}
+
+}
+
+

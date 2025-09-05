@@ -1,0 +1,31 @@
+/* _buttons.css */
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #00BFFF; /* Deep Sky Blue */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #009ACD; /* Darker Deep Sky Blue */
+}
+
+.btn-secondary {
+    background-color: #6A5ACD; /* Slate Blue */
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #483D8B; /* Darker Slate Blue */
+}
+
+
