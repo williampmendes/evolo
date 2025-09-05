@@ -1,0 +1,60 @@
+/* _reset.css */
+
+/* Remove default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set default font and line-height */
+body {
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+/* Remove list styles */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Remove text decoration from links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Make images responsive */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Form element resets */
+button,
+input,
+select,
+textarea {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+/* Remove outline on focus for accessibility, but provide alternative visual cue */
+:focus {
+    outline: none;
+}
+
+/* Add a subtle focus ring for keyboard navigation */
+:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+

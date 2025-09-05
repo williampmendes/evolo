@@ -1,0 +1,12 @@
+/* _footer.css */
+
+.main-footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #a0aec0; /* gray-400 */
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px solid #2d3748; /* gray-800 */
+}
+
+
