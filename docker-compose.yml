@@ -24,7 +24,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./public:/usr/local/apache2/htdocs/
+      - .:/var/www
       - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
     networks:
       - evolo_network

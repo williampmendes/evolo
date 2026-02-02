@@ -13,7 +13,7 @@ class FeedController extends Controller
         $user = Auth::user();
 
         // Obter IDs dos amigos aceitos
-        $friendIds = $user->friends()->pluck('id')->toArray();
+        $friendIds = $user->friends()->pluck('users.id')->toArray();
 
         // Incluir o próprio ID do usuário para ver suas postagens no feed
         $allRelevantUserIds = array_merge([$user->id], $friendIds);

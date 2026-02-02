@@ -24,12 +24,14 @@ CREATE DATABASE evolo OWNER evolo_user;
 EOF
 
     echo "🔧 Configurando Apache2 VirtualHost..."
+    PROJECT_DIR=$(pwd)
     sudo tee /etc/apache2/sites-available/evolo.conf > /dev/null <<EOF
 <VirtualHost *:80>
     ServerName evolo.local
-    DocumentRoot /var/www/evolo/public
+    DocumentRoot ${PROJECT_DIR}/public
 
-    <Directory /var/www/evolo/public>
+    <Directory ${PROJECT_DIR}/public>
+        Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
@@ -61,6 +63,10 @@ EOF
     sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=password/' .env
 
     php artisan migrate:fresh --seed
+
+    echo "🔑 Ajustando permissões de pastas (storage e cache)..."
+    sudo chown -R www-data:www-data storage bootstrap/cache
+    sudo chmod -R 775 storage bootstrap/cache
 
     echo "✅ Instalação LOCAL concluída! Acesse: http://evolo.local"
 }
