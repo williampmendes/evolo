@@ -11,16 +11,16 @@ RUN apt-get update && apt-get install -y \
     unzip \
     zip \
     npm \
-    # Dependências para extensões PHP
     libpq-dev \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
+    libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/* \
-    # Instala as extensões PHP
     && docker-php-ext-install pdo_pgsql mbstring xml curl zip bcmath \
-    # Configura e instala a extensão GD
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
