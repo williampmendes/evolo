@@ -14,7 +14,7 @@ ECHO.
 
 REM --- Verificando se o Docker está em execução ---
 ECHO.
-ECHO [1/7] Verificando se o Docker esta em execucao...
+ECHO [1/5] Verificando se o Docker esta em execucao...
 docker ps >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 (
     ECHO.
@@ -51,7 +51,7 @@ ECHO.
 
 REM --- Subindo os containers ---
 ECHO.
-ECHO [2/7] Construindo e iniciando os containers Docker...
+ECHO [2/5] Construindo e iniciando os containers Docker (isso pode levar alguns minutos)...
 %DOCKER_COMPOSE_CMD% up -d --build
 IF %ERRORLEVEL% NEQ 0 (
     ECHO.
@@ -64,47 +64,44 @@ ECHO.
 
 REM --- Aguardando o banco de dados ---
 ECHO.
-ECHO [3/7] Aguardando o banco de dados (PostgreSQL) ficar pronto... (aprox. 20 segundos)
-timeout /t 20 /nobreak >nul
-ECHO.
+ECHO [3/5] Aguardando o banco de dados (PostgreSQL) ficar pronto...
+SET "ATTEMPTS=0"
+SET "MAX_ATTEMPTS=12"
 
-REM --- Instalando dependências do Composer ---
-ECHO.
-ECHO [4/7] Instalando dependencias do PHP com o Composer...
-%DOCKER_COMPOSE_CMD% exec app composer install
-IF %ERRORLEVEL% NEQ 0 (
+:DB_WAIT_LOOP
+%DOCKER_COMPOSE_CMD% exec -T db pg_isready -U evolo_user -d evolo -q >nul 2>&1
+IF %ERRORLEVEL% EQU 0 (
+    ECHO Banco de dados pronto.
+    GOTO :DB_READY
+)
+
+SET /A ATTEMPTS+=1
+IF %ATTEMPTS% GEQ %MAX_ATTEMPTS% (
     ECHO.
-    ECHO [ERRO] Falha ao instalar dependencias do Composer.
-    ECHO.
+    ECHO [ERRO] O banco de dados nao ficou pronto apos 60 segundos.
+    ECHO Verificando logs do container 'db':
+    %DOCKER_COMPOSE_CMD% logs db
     PAUSE
     EXIT /B 1
 )
-ECHO.
 
-REM --- Instalando dependências do NPM e compilando assets ---
-ECHO.
-ECHO [5/7] Instalando dependencias do Node.js e compilando assets...
-%DOCKER_COMPOSE_CMD% exec app npm install
-%DOCKER_COMPOSE_CMD% exec app npm run build
-IF %ERRORLEVEL% NEQ 0 (
-    ECHO.
-    ECHO [ERRO] Falha ao executar os comandos NPM.
-    ECHO.
-    PAUSE
-    EXIT /B 1
-)
+ECHO Aguardando... (tentativa %ATTEMPTS%/%MAX_ATTEMPTS%)
+timeout /t 5 /nobreak >nul
+GOTO :DB_WAIT_LOOP
+
+:DB_READY
 ECHO.
 
 REM --- Configurando o ambiente Laravel ---
 ECHO.
-ECHO [6/7] Configurando o arquivo de ambiente (.env) e a chave do Laravel...
+ECHO [4/5] Configurando o arquivo de ambiente (.env) e a chave do Laravel...
 %DOCKER_COMPOSE_CMD% exec app cp -n .env.example .env
 %DOCKER_COMPOSE_CMD% exec app php artisan key:generate
 ECHO.
 
 REM --- Executando as migrations e seeders ---
 ECHO.
-ECHO [7/7] Executando as migrations e populando o banco de dados...
+ECHO [5/5] Executando as migrations e populando o banco de dados...
 %DOCKER_COMPOSE_CMD% exec app php artisan migrate:fresh --seed
 IF %ERRORLEVEL% NEQ 0 (
     ECHO.
