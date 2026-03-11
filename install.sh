@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# configurações do ambiente linux
 # Instalação LOCAL (ambiente real na máquina)
 instalacao_local() {
     echo "🚀 Iniciando instalação LOCAL do Evolo"
