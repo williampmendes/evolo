@@ -32,13 +32,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Isso evita reinstalar tudo a cada mudança de código.
 
 COPY composer*.json ./
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
 COPY package*.json ./
 RUN npm install
 
 # Copia o restante do código da aplicação
 COPY . .
+
+# Gera o autoloader otimizado e executa os scripts (como package:discover) agora que o código existe
+RUN composer dump-autoload --optimize
 
 # Compila os assets de frontend
 RUN npm run build
