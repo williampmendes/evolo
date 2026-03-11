@@ -35,7 +35,9 @@ COPY composer*.json ./
 
 # Remove o composer.lock antigo para evitar conflitos de plataforma e garantir dependências compatíveis com o container
 RUN rm -f composer.lock && \
-    COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts -vvv
+    # Configura git para forçar HTTPS (resolve timeouts e erros de protocolo git://)
+    git config --global url."https://".insteadOf git:// && \
+    COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
 COPY package*.json ./
 RUN npm install
