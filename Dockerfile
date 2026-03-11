@@ -31,10 +31,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copia primeiro os arquivos de dependência, instala, e só depois copia o resto do código.
 # Isso evita reinstalar tudo a cada mudança de código.
 
-COPY composer.json composer.lock ./
+COPY composer*.json ./
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
 # Copia o restante do código da aplicação
