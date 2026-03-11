@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install pdo_pgsql mbstring xml curl zip bcmath \
+    && docker-php-ext-install pdo_pgsql pgsql mbstring xml curl zip bcmath \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
@@ -32,7 +32,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Isso evita reinstalar tudo a cada mudança de código.
 
 COPY composer*.json ./
-RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts -vvv
+RUN COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts -vvv
 
 COPY package*.json ./
 RUN npm install
