@@ -32,7 +32,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Isso evita reinstalar tudo a cada mudança de código.
 
 COPY composer*.json ./
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
 COPY package*.json ./
 RUN npm install
