@@ -34,8 +34,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY composer*.json ./
 
 # Remove o composer.lock antigo para evitar conflitos de plataforma e garantir dependências compatíveis com o container
-RUN rm -f composer.lock
-RUN COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
+RUN rm -f composer.lock && \
+    COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts -vvv
 
 COPY package*.json ./
 RUN npm install
