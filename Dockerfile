@@ -32,7 +32,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Isso evita reinstalar tudo a cada mudança de código.
 
 COPY composer*.json ./
-RUN COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts -vvv
+
+# Remove o composer.lock antigo para evitar conflitos de plataforma e garantir dependências compatíveis com o container
+RUN rm -f composer.lock
+RUN COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
 COPY package*.json ./
 RUN npm install
