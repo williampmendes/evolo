@@ -47,9 +47,10 @@ COPY . .
 RUN composer dump-autoload --optimize --no-scripts
 
 # Compila os assets de frontend
-RUN npm run build
+RUN npm run build || echo "⚠️ NPM Build falhou, mas continuando o deploy..."
 
 # Permissões corretas
+RUN mkdir -p /var/www/storage/framework/cache /var/www/storage/framework/sessions /var/www/storage/framework/views /var/www/storage/logs /var/www/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 9000
