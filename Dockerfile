@@ -19,8 +19,9 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libcurl4-openssl-dev \
+    libicu-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install pdo_pgsql pgsql mbstring xml curl zip bcmath \
+    && docker-php-ext-install pdo_pgsql pgsql mbstring xml curl zip bcmath intl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
@@ -32,10 +33,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Isso evita reinstalar tudo a cada mudança de código.
 
 COPY composer*.json ./
-
-# Remove o composer.lock antigo para evitar conflitos de plataforma e garantir dependências compatíveis com o container
+RUN rm -f composer.lock || true
 RUN git config --global url."https://".insteadOf git://
-RUN COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --no-autoloader --no-dev --no-scripts -v
+RUN COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_PROCESS_TIMEOUT=2000 composer update --no-interaction --prefer-dist --no-autoloader --no-dev --no-scripts --ignore-platform-reqs -v
 
 COPY package*.json ./
 RUN npm install
@@ -44,7 +44,7 @@ RUN npm install
 COPY . .
 
 # Gera o autoloader otimizado e executa os scripts (como package:discover) agora que o código existe
-RUN composer dump-autoload --optimize
+RUN composer dump-autoload --optimize --no-scripts
 
 # Compila os assets de frontend
 RUN npm run build
